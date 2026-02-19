@@ -2,6 +2,8 @@
 
 ### Autonomous Red Team Simulation Agent
 
+<img width="964" height="643" alt="Screenshot 2026-02-19 at 12 36 45 PM" src="https://github.com/user-attachments/assets/19a8ee07-5bba-4262-a6cd-43010ac22902" />
+
 AURORA is a controlled red-team simulation platform built for education,
 experimentation, and portfolio demonstration.
 
