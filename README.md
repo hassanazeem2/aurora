@@ -1,176 +1,246 @@
-# 🔴 AURORA — Autonomous Red Team Simulation Agent
+# aurora.
 
-> ⚠️ **SAFE SIMULATION ONLY** — This platform performs NO real attacks.
-> All data is synthetic. For educational and portfolio purposes only.
+### Autonomous Red Team Simulation Agent
 
----
+AURORA is a controlled red-team simulation platform built for education,
+experimentation, and portfolio demonstration.
+
+It does **not** attack real systems.\
+It does **not** connect to external networks.\
+All data is synthetic by design.
+
+This project focuses on autonomous decision-making, attack path
+modeling, and visual simulation --- inside a completely safe sandbox.
+
+------------------------------------------------------------------------
+
+## 🧠 What AURORA Does
+
+When you start a session, the agent will:
+
+-   Scan a synthetic network graph
+-   Identify simulated vulnerabilities
+-   Plan possible attack paths
+-   Execute a mock exploit chain
+-   Log reasoning step-by-step
+-   Track metrics and timeline events
+
+You can inspect every step, replay sessions, reset simulations, and
+explore the evolving network state.
+
+No real payloads.\
+No real credentials.\
+No real infrastructure.
+
+------------------------------------------------------------------------
 
 ## 📁 Project Structure
 
-```
-aurora/
-├── frontend/              # Next.js 14 + TypeScript + Tailwind
-│   ├── src/
-│   │   ├── app/           # Next.js app router pages
-│   │   ├── components/    # UI components
-│   │   ├── lib/           # API client + mock data
-│   │   └── store/         # Zustand state management
-│   ├── electron/         # Electron main process (desktop app)
-│   ├── Dockerfile
-│   └── package.json
-│
-├── backend/               # Python FastAPI
-│   ├── api/routes/        # REST endpoints
-│   ├── core/              # Autonomous agent logic
-│   ├── models/            # Pydantic schemas
-│   ├── services/          # Session management
-│   ├── simulation/        # Network graph engine
-│   ├── main.py
-│   ├── Dockerfile
-│   └── requirements.txt
-│
-├── docker-compose.yml
-├── .env.example
-└── README.md
-```
+    aurora/
+    ├── frontend/
+    │   ├── src/
+    │   │   ├── app/           # Next.js app router
+    │   │   ├── components/    # UI components
+    │   │   ├── lib/           # API client + mock data
+    │   │   └── store/         # Zustand state management
+    │   ├── electron/          # Electron desktop wrapper
+    │   ├── Dockerfile
+    │   └── package.json
+    │
+    ├── backend/
+    │   ├── api/routes/        # REST endpoints
+    │   ├── core/              # Autonomous agent logic
+    │   ├── models/            # Pydantic schemas
+    │   ├── services/          # Session management
+    │   ├── simulation/        # Network graph engine
+    │   ├── main.py
+    │   ├── Dockerfile
+    │   └── requirements.txt
+    │
+    ├── docker-compose.yml
+    ├── .env.example
+    └── README.md
 
----
+------------------------------------------------------------------------
 
-## 🚀 Option A: Run Locally (No Docker)
+# 🚀 Running AURORA
 
-### Prerequisites
-- Node.js 18+
-- Python 3.11+
+You have three ways to run the platform.
 
-### Step 1 — Backend
+------------------------------------------------------------------------
 
-```bash
+## Option A --- Local Development (No Docker)
+
+### Requirements
+
+-   Node.js 18+
+-   Python 3.11+
+
+### 1️⃣ Start Backend
+
+``` bash
 cd aurora/backend
 pip install -r requirements.txt
 uvicorn main:app --reload --port 8000
 ```
 
-Backend runs at: http://localhost:8000
-API docs at: http://localhost:8000/docs
+Backend: - http://localhost:8000\
+- API Docs: http://localhost:8000/docs
 
-### Step 2 — Frontend
+------------------------------------------------------------------------
 
-Open a new terminal:
+### 2️⃣ Start Frontend (New Terminal)
 
-```bash
+``` bash
 cd aurora/frontend
 npm install
 npm run dev
 ```
 
-Frontend runs at: http://localhost:3000
+Frontend: - http://localhost:3000
 
----
+------------------------------------------------------------------------
 
-## 🖥️ Option C: Run as desktop app (Electron)
+## Option B --- Docker (Everything Together)
 
-Run AURORA in its own window like a native app.
+### Requirement
 
-### Prerequisites
-- Node.js 18+
-- (Optional) Python 3.11+ if you want the backend API; the app can run with mock data without it.
+-   Docker Desktop installed and running
 
-### One command
+From project root:
 
-```bash
+``` bash
+cd aurora
+docker-compose up --build
+```
+
+Services: - Frontend → http://localhost:3000\
+- Backend → http://localhost:8000
+
+To stop:
+
+``` bash
+docker-compose down
+```
+
+------------------------------------------------------------------------
+
+## Option C --- Desktop Mode (Electron)
+
+Run AURORA as a native desktop app.
+
+### Dev Mode
+
+``` bash
 cd aurora/frontend
 npm install
 npm run electron:dev
 ```
 
-This starts the Next.js dev server and opens an **Electron window** with the dashboard. The app will try to start the Python backend automatically if it’s available from the project root.
+This: - Starts the Next.js dev server - Opens an Electron window -
+Attempts to start the backend automatically (if available)
 
-### Build a standalone app (macOS)
+The app can run with mock data only if the backend is not active.
 
-To create an **AURORA.app** you can double‑click:
+------------------------------------------------------------------------
 
-```bash
+### Build macOS App
+
+``` bash
 cd aurora/frontend
 npm run electron:pack
 ```
 
-The app is written to `frontend/dist/`. Open **AURORA.app** from `dist/mac-arm64/` (or `dist/mac/` on Intel). The backend is not included in the .app; run it separately if you need the live API.
+Output location:
 
----
+    frontend/dist/
 
-## 🐳 Option B: Run with Docker
+Open: - `dist/mac-arm64/AURORA.app` (Apple Silicon) -
+`dist/mac/AURORA.app` (Intel)
 
-### Prerequisites
-- Docker Desktop installed and running
+Note: The backend is not bundled inside the `.app`. Run it separately if
+you need live API support.
 
-### One command to run everything:
+------------------------------------------------------------------------
 
-```bash
-cd aurora
-docker-compose up --build
-```
+# 🖥️ Using the Dashboard
 
-This starts both services:
-- Frontend → http://localhost:3000
-- Backend API → http://localhost:8000
+1.  Open http://localhost:3000\
+2.  Click **Start Simulation**
+3.  Observe the agent:
+    -   Map the network
+    -   Detect vulnerabilities
+    -   Build an attack chain
+    -   Execute simulated actions
+    -   Log reasoning in real time
+4.  Click timeline events for detailed inspection
+5.  Click **Reset** to replay
 
-### Stop everything:
-```bash
-docker-compose down
-```
+------------------------------------------------------------------------
 
----
+# 🔌 API Endpoints
 
-## 🖥️ Using the Dashboard
+Base URL:
 
-1. Open http://localhost:3000
-2. Click **▶ Start Simulation**
-3. Watch the autonomous agent:
-   - Scan the network map
-   - Identify vulnerabilities
-   - Plan attack paths
-   - Execute simulated exploit chain
-   - Show reasoning in real time
-4. Click any timeline event to expand details
-5. Click **↺ Reset** to run again
+    http://localhost:8000
 
----
+  Method   Endpoint                       Description
+  -------- ------------------------------ ------------------------------
+  POST     `/api/session/start`           Start new simulation session
+  POST     `/api/session/{id}/step`       Advance one step
+  GET      `/api/session/{id}`            Get full session state
+  GET      `/api/session/{id}/graph`      Retrieve network graph
+  GET      `/api/session/{id}/metrics`    Retrieve metrics
+  GET      `/api/session/{id}/timeline`   Retrieve timeline
+  POST     `/api/session/{id}/replay`     Reset and replay session
+  GET      `/api/sessions`                List sessions
 
-## 🔌 API Endpoints
+Interactive API docs:
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/api/session/start` | Start a new simulation session |
-| POST | `/api/session/{id}/step` | Advance one simulation step |
-| GET | `/api/session/{id}` | Get full session state |
-| GET | `/api/session/{id}/graph` | Get network graph |
-| GET | `/api/session/{id}/metrics` | Get metrics data |
-| GET | `/api/session/{id}/timeline` | Get event timeline |
-| POST | `/api/session/{id}/replay` | Reset and replay |
-| GET | `/api/sessions` | List all sessions |
+    http://localhost:8000/docs
 
-Interactive docs: http://localhost:8000/docs
+------------------------------------------------------------------------
 
----
+# 🛠 Tech Stack
 
-## 🛠️ Tech Stack
+### Frontend
 
-| Layer | Technology |
-|-------|-----------|
-| Frontend | Next.js 14, TypeScript, TailwindCSS |
-| Animations | Framer Motion |
-| Charts | Recharts |
-| State | Zustand |
-| Backend | Python 3.11, FastAPI, Pydantic |
-| Graph | NetworkX |
-| Container | Docker + Docker Compose |
+-   Next.js 14
+-   TypeScript
+-   TailwindCSS
+-   Zustand
+-   Framer Motion
+-   Recharts
 
----
+### Backend
 
-## ⚠️ Disclaimer
+-   Python 3.11
+-   FastAPI
+-   Pydantic
+-   NetworkX
 
-AURORA is a **safe simulation platform** for educational purposes.
-- No real exploit payloads are generated
-- No real network connections are made to external hosts
-- No real credentials or vulnerabilities are targeted
-- All CVE references are for educational context only
+### Infrastructure
+
+-   Docker
+-   Docker Compose
+
+------------------------------------------------------------------------
+
+# ⚠️ Safety Notice
+
+AURORA is a **safe simulation environment**.
+
+-   No real exploit payloads are generated
+-   No external network connections are made
+-   No real credentials are used
+-   CVE references are educational only
+
+This project demonstrates: - Autonomous agent behavior - Simulation
+modeling - Graph-based reasoning - System architecture - Visualization
+of attack paths
+
+It is not an offensive security tool.
+
+------------------------------------------------------------------------
+
+**AURORA --- controlled chaos in a safe sandbox.**
